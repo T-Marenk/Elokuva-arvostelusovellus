@@ -1,0 +1,8 @@
+Tervetuloa Poppari-arvosteluihin!
+<hr>
+{% for movie in movies %}
+{{ movie.name }}
+<a href="/movie/{{ movie.id }}">Näytä elokuva</a>
+<hr>
+{% endfor %}
+
