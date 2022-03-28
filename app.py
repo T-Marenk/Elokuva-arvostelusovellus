@@ -18,6 +18,9 @@ def movie(id):
     sql = "SELECT name FROM Movies WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     movie = result.fetchone()[0]
-    return render_template("movie.html", id=id, movie=movie)
+    sql = ("SELECT year, length FROM information WHERE movie_id=:id")
+    result = db.session.execute(sql, {"id":id})
+    information = result.fetchone()
+    return render_template("movie.html", id=id, movie=movie, information=information)
 
 
