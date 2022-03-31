@@ -1,0 +1,22 @@
+<h2> Jätä arvostelu elokuvalle {{ movie.name }} </h2>
+<hr>
+<form action="/leave_review" method="POST">
+	<p>Montako tähteä annat elokuvalle</p>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	{{ messages[0] }} <br>
+	<br>
+	{% endif %}
+	{% endwith %}
+	{% for i in range(1, 6) %}
+	<input type="radio" name="stars" value="{{ i }}"> {{ i }}
+	{% endfor %}
+	<br>
+	<p>Kerro tarkemmin mielipiteesti elokuvasta</p>
+	<input type="text" name="review" style="width: 800px;" maxlength="500" required> <br>
+	<br>
+	<input type="submit" value="Lähetä arvostelu">
+	<input type="hidden" name="id" value="{{ id }}">
+	<input type="hidden" name="user_id" value="{{ user_id }}">
+</form>
+<a href="/">Peruuta</a>
