@@ -1,0 +1,12 @@
+<form action="/registeration" method="POST">
+<h2> Luo käyttäjä </h2>
+Käyttäjänimi: <input type="text" name="username"> 
+<br>
+Salasana: <input type="password" name="password1"> <br>
+Anna salasana uudestaan: <input type="password" name="password2"> <br>
+<input type="submit" value="Luo käyttäjä">
+</form>
+
+{% if error != None %}
+{{ error }}
+{% endif %}
