@@ -12,19 +12,48 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    result = db.session.execute("SELECT id, name FROM Movies")
+    sql = "SELECT M.id, M.name, I.year FROM Movies M LEFT JOIN information I on I.movie_id = M.id ORDER BY M.id DESC limit 10"
+    result = db.session.execute(sql)
     movies = result.fetchall()
-    return render_template("index.html", count=len(movies), movies=movies)
+    return render_template("index.html", movies=movies)
 
 @app.route("/movie/<int:id>")
 def movie(id):
+    sql = "SELECT M.name, M.id, I.year, I.length FROM Movies M LEFT JOIN information I on I.movie_id = M.id WHERE M.id=:id"
+    result = db.session.execute(sql, {"id":id})
+    movie = result.fetchone()
+    sql = "SELECT A.stars, A.user_id, A.review, U.username FROM reviews A, users U WHERE A.movie_id=:id AND A.user_id=U.id"
+    result = db.session.execute(sql, {"id":id})
+    reviews = result.fetchall()
+    sql = "SELECT SUM(stars)/COUNT(*) FROM reviews WHERE movie_id=:id"
+    result = db.session.execute(sql, {"id":id})
+    all_stars = result.fetchone()
+    return render_template("movie.html", id=id, movie=movie, reviews=reviews, all_stars=all_stars)
+
+@app.route("/new_review/<int:id>")
+def new_review(id):
     sql = "SELECT name FROM Movies WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
-    movie = result.fetchone()[0]
-    sql = ("SELECT year, length FROM information WHERE movie_id=:id")
-    result = db.session.execute(sql, {"id":id})
-    information = result.fetchone()
-    return render_template("movie.html", id=id, movie=movie, information=information)
+    movie = result.fetchone()
+    username = session['username']
+    sql = "SELECT id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user_id = result.fetchone()[0]
+    return render_template("new_review.html", id=id, movie=movie, user_id=user_id)
+
+@app.route("/leave_review", methods=["POST"])
+def leave_review():
+    movie_id = request.form["id"]
+    if "stars" not in request.form:
+        flash("Anna elokuvalle arvostelu")
+        return redirect("/new_review/" + str(movie_id))
+    stars = request.form["stars"]
+    review = request.form["review"]
+    user_id = request.form["user_id"]
+    sql = "INSERT INTO reviews (movie_id, stars, review, left_at, user_id) VALUES (:movie_id, :stars, :review, NOW(), :user_id)"
+    db.session.execute(sql, {"movie_id":movie_id, "stars": stars, "review":review, "user_id":user_id})
+    db.session.commit()
+    return redirect("/movie/" + str(movie_id))
 
 @app.route("/login",methods=["GET", "POST"])
 def login():
@@ -119,4 +148,5 @@ def register():
 @app.route("/logout")
 def logout():
     del session["username"]
+    flash("Kirjauduttu ulos onnistuneesti")
     return redirect("/")
