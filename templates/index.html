@@ -14,7 +14,7 @@
 Tervetuloa Poppari-arvosteluihin!
 <hr>
 {% for movie in movies %}
-{{ movie.name }}
+<p>{{ movie.name }} | Julkaistu: {{ movie.year }} <br>
 <a href="/movie/{{ movie.id }}">Näytä elokuva</a>
 <hr>
 {% endfor %}
