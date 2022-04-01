@@ -9,10 +9,9 @@ Kirjaudu sisään jättääksesi arvostelu </p>
 {% endif %}
 <hr>
 {% for review in reviews %}
-{{ review.username }} | 
-{{ "*"*review.stars }} <br>
-{{ review.review }}<br>
-</hr>
+<p>{{ review.username }} | {{ "*"*review.stars }} </p
+<p>{{ review.review }}</p>
+<hr>
 {% endfor %}
 <a href="/">Etusivulle</a>
 
