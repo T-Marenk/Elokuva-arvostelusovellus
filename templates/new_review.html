@@ -14,11 +14,12 @@
 	{% endfor %}
 	<br>
 	<p>Kerro tarkemmin mielipiteesti elokuvasta</p>
-	<input type="text" name="review" style="width: 800px;" maxlength="500" required> <br>
+	<textarea name="review" required></textarea> <br>
 	<br>
 	<input type="submit" value="Lähetä arvostelu">
 	<input type="hidden" name="id" value="{{ id }}">
 	<input type="hidden" name="user_id" value="{{ user_id }}">
+	<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 <a href="/">Peruuta</a>
 {% else %}

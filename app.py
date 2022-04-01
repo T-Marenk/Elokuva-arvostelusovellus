@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from os import getenv
 import string
+import secrets
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
@@ -45,6 +46,8 @@ def new_review(id):
 
 @app.route("/leave_review", methods=["POST"])
 def leave_review():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     movie_id = request.form["id"]
     if "stars" not in request.form:
         flash("Anna elokuvalle arvostelu")
@@ -76,6 +79,7 @@ def login():
             hash_value = user.password
             if check_password_hash(hash_value, password):
                 flash("Kirjautuminen onnistui")
+                session["csrf_token"] = secrets.token_hex(16)
                 session["username"] = username
                 return redirect("/")
             else:
