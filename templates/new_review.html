@@ -1,3 +1,4 @@
+{% if session.username %}
 <h2> Jätä arvostelu elokuvalle {{ movie.name }} </h2>
 <hr>
 <form action="/leave_review" method="POST">
@@ -20,3 +21,7 @@
 	<input type="hidden" name="user_id" value="{{ user_id }}">
 </form>
 <a href="/">Peruuta</a>
+{% else %}
+<p>Kirjaudu sisään jättääksesi arvostelu elokuville <a href="/login">Kirjaudu sisään</a></p>
+<a href="/">Palaa etusivulle</a>
+{% endif %}
