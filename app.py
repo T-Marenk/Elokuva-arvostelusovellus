@@ -20,13 +20,14 @@ def index():
 
 @app.route("/movie/<int:id>")
 def movie(id):
-    sql = "SELECT M.name, M.id, I.year, I.length FROM Movies M LEFT JOIN information I on I.movie_id = M.id WHERE M.id=:id"
+    sql = "SELECT M.name, M.id, I.year, I.length, I.genre, D.description FROM Movies M LEFT JOIN information I on I.movie_id = M.id " \
+            "LEFT JOIN description D ON M.id = D.movie_id WHERE M.id=:id"
     result = db.session.execute(sql, {"id":id})
     movie = result.fetchone()
     sql = "SELECT A.stars, A.user_id, A.review, A.left_at, U.username FROM reviews A, users U WHERE A.movie_id=:id AND A.user_id=U.id"
     result = db.session.execute(sql, {"id":id})
     reviews = result.fetchall()
-    sql = "SELECT SUM(stars)/COUNT(*) FROM reviews WHERE movie_id=:id"
+    sql = "SELECT ROUND(SUM(stars)/COUNT(*),1) FROM reviews WHERE movie_id=:id"
     result = db.session.execute(sql, {"id":id})
     all_stars = result.fetchone()
     return render_template("movie.html", id=id, movie=movie, reviews=reviews, all_stars=all_stars)
