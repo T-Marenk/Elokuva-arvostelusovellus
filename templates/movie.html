@@ -1,6 +1,10 @@
 {{ movie.name }} <br>
 Julkaistu: {{ movie.year }} | Elokuvan pituus: {{ movie.length }} minuuttia <br>
+{% if all_stars[0] != None %}
 <p> Arvosteluiden keskiarvo: {{ all_stars[0] }} tähteä <p>
+{% else %}
+<p> Elokuvalla ei ole vielä arvosteluja. Ole ensimmäinen ja kerro mielipiteesi elokuvasta! </p>
+{% endif %}
 <p> Haluatko kertoa oman mielipiteesti elokuvasta?
 {% if session.username %}
 <a href="/new_review/{{ movie.id }}">Jätä arvostelu</a> </p>
@@ -11,6 +15,7 @@ Kirjaudu sisään jättääksesi arvostelu </p>
 {% for review in reviews %}
 <p>{{ review.username }} | {{ "*"*review.stars }} </p
 <p>{{ review.review }}</p>
+{{ review.left_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
 <hr>
 {% endfor %}
 <a href="/">Etusivulle</a>
