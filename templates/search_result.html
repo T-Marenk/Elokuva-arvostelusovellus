@@ -1,0 +1,14 @@
+<h1> Poppari-arvostelut </h1>
+<a href="/">Etusivulle</a>  
+<h2> Haun tulokset </h2>
+<hr>
+{% if movies %}
+{% for movie in movies %}
+<p>{{ movie.name }} | Julkaistu: {{ movie.year }} | Genre: {{ movie.genre }} </p>
+<a href="/movie/{{ movie.id }}">Näytä elokuva</a>
+<hr>
+{% endfor %}
+{% else %}
+<p> Haku ei tuottanut tuloksia </p>
+{% endif %}
+

@@ -32,6 +32,29 @@ def movie(id):
     all_stars = result.fetchone()
     return render_template("movie.html", id=id, movie=movie, reviews=reviews, all_stars=all_stars)
 
+@app.route("/search_result", methods=["GET"])
+def search_result():
+    search_by = request.args["search_by"]
+    query = request.args["query"]
+    if search_by == "name":
+        movies = search_movies_name(query)
+        return render_template("search_result.html", movies=movies)
+    if search_by == "genre":
+        movies = search_movies_genre(query)
+        return render_template("search_result.html", movies=movies)
+
+def search_movies_name(name):
+    sql = "SELECT M.id, M.name, I.year, I.genre FROM movies M LEFT JOIN information I ON I.movie_id = M.id WHERE M.name LIKE :name"
+    result = db.session.execute(sql, {"name":"%"+name+"%"})
+    movies = result.fetchall()
+    return movies
+
+def search_movies_genre(genre):
+    sql = "SELECT M.id, M.name, I.year, I.genre FROM movies M LEFT JOIN information I ON I.movie_id = M.id WHERE I.genre LIKE :genre"
+    result = db.session.execute(sql, {"genre":"%"+genre+"%"})
+    movies = result.fetchall()
+    return movies
+
 @app.route("/new_review/<int:id>")
 def new_review(id):
     if is_user():

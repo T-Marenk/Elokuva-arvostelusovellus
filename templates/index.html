@@ -1,7 +1,8 @@
+<h1>Tervetuloa Poppari-arvosteluihin!</h1>
 {% if session.username %}
-<p> {{ session.username }} | <a href="/logout">Kirjaudu ulos </a> <br>
+<p> {{ session.username }} | <a href="/logout">Kirjaudu ulos </a>
 {% else %}
-<a href="/login">Kirjaudu sisään</a> <br>
+<a href="/login">Kirjaudu sisään</a>
 {% endif %}
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -10,8 +11,14 @@
 {% endfor %}
 {% endif %}
 {% endwith %}
-<br>
-Tervetuloa Poppari-arvosteluihin!
+<form action="/search_result" method="GET">
+	<h4>Hae elokuvaa:</h4> 
+	<input type="radio" name="search_by" value="name"> Nimen mukaan
+	<input type="radio" name="search_by" value="genre"> Genren mukaan | 
+	Hakusana: <input type="text" name="query">
+	<input type="submit" value="Hae">
+</form>
+<h4>Viimeisimmät lisäykset</h4>
 <hr>
 {% for movie in movies %}
 <p>{{ movie.name }} | Julkaistu: {{ movie.year }} <br>
