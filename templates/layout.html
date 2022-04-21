@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>
+	Poppari-arvostelut - {% block title %}{% endblock %}
+</title>
+<h1>
+	Poppari-arvostelut
+</h1>
+<p>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	{% for message in messages %}
+	{{ message }} <br>
+	{% endfor %}
+	{% endif %}
+	{% endwith %}
+	{% if session.username %}	
+	{{ session.username }} 
+	<a href="/logout">Kirjaudu ulos</a>
+	{% else %}
+	<a href="/login">Kirjaudu sisään</a>
+	{% endif %}
+</p>
+<a href="/">Etusivulle</a>
+<hr>
+{% block content %}{% endblock %}

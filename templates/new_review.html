@@ -1,8 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}Uusi arvostelu{% endblock %}
+{% block content %}
 {% if session.username %}
 <h2> Jätä arvostelu elokuvalle {{ movie.name }} </h2>
 <hr>
 <form action="/leave_review" method="POST">
-	<p>Montako tähteä annat elokuvalle</p>
+	<p>
+		Montako tähteä annat elokuvalle
+	</p>
 	{% with messages = get_flashed_messages() %}
 	{% if messages %}
 	{{ messages[0] }} <br>
@@ -13,7 +18,9 @@
 	<input type="radio" name="stars" value="{{ i }}"> {{ i }}
 	{% endfor %}
 	<br>
-	<p>Kerro tarkemmin mielipiteesti elokuvasta</p>
+	<p>
+		Kerro tarkemmin mielipiteesi elokuvasta
+	</p>
 	<textarea name="review" required></textarea> <br>
 	<br>
 	<input type="submit" value="Lähetä arvostelu">
@@ -21,8 +28,10 @@
 	<input type="hidden" name="user_id" value="{{ user_id }}">
 	<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
-<a href="/">Peruuta</a>
+<a href="/movie/{{ id }}">Peruuta</a>
 {% else %}
-<p>Kirjaudu sisään jättääksesi arvostelu elokuville <a href="/login">Kirjaudu sisään</a></p>
-<a href="/">Palaa etusivulle</a>
+<p>
+	Kirjaudu sisään jättääksesi arvostelu elokuville <a href="/login">Kirjaudu sisään</a>
+</p>
 {% endif %}
+{% endblock %}

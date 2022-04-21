@@ -1,25 +1,50 @@
-<h2>{{ movie.name }}</h2> <br>
-Julkaistu: {{ movie.year }} | Elokuvan pituus: {{ movie.length }} minuuttia <br>
-<p> Genre: {{ movie.genre }} </p>
-{{ movie.description }}
-{% if all_stars[0] != None %}
-<p> Arvosteluiden keskiarvo: {{ all_stars[0] }} tähteä <p>
+{% extends "layout.html" %}
+{% block title %}{{movie.name}}{% endblock %}
+{% block content %}
+<h2>
+	{{ movie.name }}
+</h2>
+<p>
+	Julkaistu: {{ movie.year }} | Elokuvan pituus: {{ movie.length }} minuuttia
+</p>
+<p> 
+	Genre: {{ movie.genre }} 
+</p>
+<p>
+{% if movie.description %}
+	{{ movie.description }}
 {% else %}
-<p> Elokuvalla ei ole vielä arvosteluja. Ole ensimmäinen ja kerro mielipiteesi elokuvasta! </p>
+	Elokuvalla ei ole kuvausta
 {% endif %}
-<p> Haluatko kertoa oman mielipiteesti elokuvasta?
-{% if session.username %}
-<a href="/new_review/{{ movie.id }}">Jätä arvostelu</a> </p>
+</p>
+{% if all_stars[0] != None %}
+<p> 
+	Arvosteluiden keskiarvo: {{ all_stars[0] }} tähteä 
+</p>
 {% else %}
-Kirjaudu sisään jättääksesi arvostelu </p>
+<p> 
+	Elokuvalla ei ole vielä arvosteluja. Ole ensimmäinen ja kerro mielipiteesi elokuvasta! 
+</p>
+{% endif %}
+{% if session.username %}
+<p> 
+	Haluatko kertoa oman mielipiteesti elokuvasta?
+<a href="/new_review/{{ movie.id }}">Jätä arvostelu</a>
+</p>
+{% else %}
+<p>
+<a href="/login">Kirjaudu sisään jättääksesi arvostelu</a>
+</p>
 {% endif %}
 <hr>
 {% for review in reviews %}
-<p>{{ review.username }} | {{ "*"*review.stars }} </p
-<p>{{ review.review }}</p>
+<p>
+	{{ review.username }} | {{ "*"*review.stars }} 
+</p>
+<p>
+	{{ review.review }}
+</p>
 {{ review.left_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
 <hr>
 {% endfor %}
-<a href="/">Etusivulle</a>
-
-
+{% endblock %}

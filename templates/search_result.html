@@ -1,5 +1,6 @@
-<h1> Poppari-arvostelut </h1>
-<a href="/">Etusivulle</a>  
+{% extends "layout.html" %}
+{% block title %}Haku tulokset{% endblock %}
+{% block content %}
 <h2> Haun tulokset </h2>
 <hr>
 {% if movies %}
@@ -11,4 +12,4 @@
 {% else %}
 <p> Haku ei tuottanut tuloksia </p>
 {% endif %}
-
+{% endblock %}
