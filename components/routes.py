@@ -15,7 +15,8 @@ def movie(id):
     movie = m_repository.movie(id)
     reviews = m_repository.reviews(id)
     all_stars = m_repository.stars(id)
-    return render_template("movie.html", id=id, movie=movie, reviews=reviews, all_stars=all_stars)
+    admin = u_repository.is_admin()
+    return render_template("movie.html", id=id, movie=movie, reviews=reviews, all_stars=all_stars, admin=admin) 
 
 @app.route("/search_result", methods=["GET"])
 def search_result():
@@ -27,6 +28,10 @@ def search_result():
     if search_by == "genre":
         movies = m_repository.search_movies_genre(query)
         return render_template("search_result.html", movies=movies)
+
+@app.route("movie_request", methods=["GET"])
+def movie_request():
+    return render_template("movie_request.html")
 
 @app.route("/new_review/<int:id>")
 def new_review(id):
@@ -51,6 +56,11 @@ def leave_review():
     m_repository.leave_review(movie_id, stars, review, user_id)
     return redirect("/movie/" + str(movie_id))
 
+@app.route("/delete_review/<int:id>")
+def delete_review(id):
+    movie_id = m_repository.delete_review(id)
+    return redirect("/movie/"+str(movie_id))
+
 @app.route("/login",methods=["GET", "POST"])
 def login():
     if u_repository.is_user():
@@ -67,7 +77,7 @@ def login():
         else:
             hash_value = user.password
             if check_password_hash(hash_value, password):
-                flash("Kirjautuminen onnistui")
+                flash("Kirjauduttu sisään onnistuneesti")
                 session["csrf_token"] = secrets.token_hex(16)
                 session["username"] = username
                 return redirect("/")
@@ -98,9 +108,6 @@ def register():
         error = u_repository.check_password(password1)
         if error:    
             return render_template("register.html", error=error) 
-        # TODO tee selkeä teksti siitä, mitä salasanalta vaaditaan
-        # TODO Lisää paluunappi kirjautumiseen
-        # TODO Lisää paluunappi virheisiin
         hash_value = generate_password_hash(password1)
         u_repository.add_user(username, hash_value)
         flash("Käyttäjä luotu onnistuneesti")

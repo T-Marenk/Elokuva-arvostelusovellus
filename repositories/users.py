@@ -18,7 +18,7 @@ def is_admin():
         username = session["username"]
         result = db.session.execute(sql, {"username":username})
         a = result.fetchone()[0]
-        if a == '1':
+        if a:
             admin = True
     return admin
 

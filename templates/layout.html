@@ -6,20 +6,24 @@
 	Poppari-arvostelut
 </h1>
 <p>
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-	{% for message in messages %}
-	{{ message }} <br>
-	{% endfor %}
-	{% endif %}
-	{% endwith %}
-	{% if session.username %}	
+	{% if session.username %}
 	{{ session.username }} 
 	<a href="/logout">Kirjaudu ulos</a>
 	{% else %}
 	<a href="/login">Kirjaudu sisään</a>
-	{% endif %}
+	{% endif %}	
 </p>
 <a href="/">Etusivulle</a>
 <hr>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	{% for message in messages %}
+	{{ message }} <br>
+	<hr>
+	{% endfor %}
+	{% endif %}
+	{% endwith %}
 {% block content %}{% endblock %}
+<p>
+	Puuttuukko joku elokuva? Jätä pyyntö elokuvan lisäämiseen <a href="/movie_request">tästä</a>
+</p>

@@ -44,7 +44,10 @@
 <p>
 	{{ review.review }}
 </p>
-{{ review.left_at.strftime("%Y-%m-%d %H:%M:%S") }} <br>
+{{ review.left_at.strftime("%Y-%m-%d %H:%M:%S") }}
+{% if admin %}
+<a href="/delete_review/{{ review.id }}">Poista</a>
+{% endif %}
 <hr>
 {% endfor %}
 {% endblock %}

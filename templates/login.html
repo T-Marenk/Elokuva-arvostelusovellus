@@ -9,14 +9,5 @@
 	<p>Salasana:</p> <input type="password" name="password"> <br>
 	<input type="submit" value="Kirjaudu sisään">
 </form>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class=flashes>
-{% for message in messages %}
-<p>{{ message }}</p>
-{% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
 <p>Eikö ole vielä käyttäjää? <a href="/registeration">Luo käyttäjä</a></p>
 {% endblock %}

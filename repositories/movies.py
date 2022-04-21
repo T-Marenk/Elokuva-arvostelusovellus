@@ -13,7 +13,7 @@ def movie(id):
     return movie
 
 def reviews(id):
-    sql = "SELECT A.stars, A.user_id, A.review, A.left_at, U.username FROM reviews A, users U WHERE A.movie_id=:id AND A.user_id=U.id"
+    sql = "SELECT A.id, A.stars, A.user_id, A.review, A.left_at, U.username FROM reviews A, users U WHERE A.movie_id=:id AND A.user_id=U.id"
     result = db.session.execute(sql, {"id":id})
     reviews = result.fetchall()
     return reviews
@@ -40,3 +40,12 @@ def leave_review(movie_id, stars, review, user_id):
     sql = "INSERT INTO reviews (movie_id, stars, review, left_at, user_id) VALUES (:movie_id, :stars, :review, NOW(), :user_id)"
     db.session.execute(sql, {"movie_id":movie_id, "stars":stars, "review":review, "user_id":user_id})
     db.session.commit()
+
+def delete_review(review_id):
+    sql = "SELECT movie_id FROM reviews WHERE id=:review_id"
+    result = db.session.execute(sql, {"review_id":review_id})
+    movie_id = result.fetchone()[0]
+    sql = "DELETE FROM reviews WHERE id=:review_id"
+    db.session.execute(sql, {"review_id":review_id})
+    db.session.commit()
+    return movie_id
