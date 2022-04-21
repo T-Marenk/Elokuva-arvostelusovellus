@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}Pyynnöt{% endblock %}
+{% block content %}
+<h2>
+	Jätetyt pyynnöt
+</h2>
+{% if movies %}
+{% for movie in movies %}
+	{{ movie.movie_name }} | {{ movie.year }}
+	<a href="/add_movie">Lisää elokuva</a>
+	<input type="hidden" name="movie_name" value="{{ movie.movie_name }}">
+	<input type="hidden" name="year" value="{{ movie.year }}">
+{% endfor %}
+{% endif %}
+{% endblock %}

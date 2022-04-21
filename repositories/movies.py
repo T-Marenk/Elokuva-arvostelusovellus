@@ -49,3 +49,19 @@ def delete_review(review_id):
     db.session.execute(sql, {"review_id":review_id})
     db.session.commit()
     return movie_id
+
+def leave_request(movie_name, movie_year):
+    sql = "INSERT INTO pending (movie_name, year) VALUES (:movie_name, :movie_year)"
+    db.session.execute(sql, {"movie_name":movie_name, "movie_year":movie_year})
+    db.session.commit()
+
+def get_requests():
+    sql = "SELECT * FROM pending"
+    result = db.session.execute(sql)
+    pending = result.fetchall()
+    return pending
+
+def delete_request(id):
+    sql = "DELETE FROM pending WHERE id=:id"
+    db.session.execute(sql, {":id":id})
+    db.session.commit()

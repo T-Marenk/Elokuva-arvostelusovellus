@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Pyyntö{% endblock %}
+{% block content %}
+<h2>
+	Uusi lisäys pyyntö
+</h2>
+<form action="/leave_request" method="POST">
+	<p>
+		<label for="mname">Elokuvan nimi:</label>
+		<input id="mname" type="text" name="movie_name">
+	</p>
+	<p>
+		<label for="myear">Elokuvan julkaisuvuosi:</label>
+		<input id="myear" type="text" name="movie_year">
+	</p>
+	<input type="submit" value="Lähteä pyyntö">
+</form>
+{% endblock %}

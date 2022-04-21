@@ -6,7 +6,8 @@ CREATE TABLE movies (
 	genre TEXT	
 );
 
-CREATE TABLE reviews (id SERIAL PRIMARY KEY,
+CREATE TABLE reviews (
+	id SERIAL PRIMARY KEY,
        	movie_id INTEGER REFERENCES movies,
        	stars INTEGER,
        	review TEXT,
@@ -21,7 +22,14 @@ CREATE TABLE users (id SERIAL PRIMARY KEY,
        	admin BOOLEAN
 );
 
-CREATE TABLE description (id SERIAL PRIMARY KEY,
+CREATE TABLE description (
+	id SERIAL PRIMARY KEY,
        	movie_id INTEGER REFERENCES movies,
        	description TEXT
+);
+
+CREATE TABLE pending (
+	id SERIAL PRIMARY KEY,
+	movie_name TEXT,
+	year INTEGER
 );

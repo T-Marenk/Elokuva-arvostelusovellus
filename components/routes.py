@@ -8,7 +8,8 @@ import string, secrets
 @app.route("/")
 def index():
     movies = m_repository.first_page()
-    return render_template("index.html", movies=movies)
+    admin = u_repository.is_admin()
+    return render_template("index.html", movies=movies, admin=admin)
 
 @app.route("/movie/<int:id>")
 def movie(id):
@@ -29,9 +30,22 @@ def search_result():
         movies = m_repository.search_movies_genre(query)
         return render_template("search_result.html", movies=movies)
 
-@app.route("movie_request", methods=["GET"])
+@app.route("/movie_request", methods=["GET"])
 def movie_request():
     return render_template("movie_request.html")
+
+@app.route("/leave_request", methods=["POST"])
+def leave_request():
+    movie_name = request.form["movie_name"]
+    movie_year = request.form["movie_year"]
+    m_repository.leave_request(movie_name, movie_year)
+    flash("Pyyntö jätetty onnistuneesti")
+    return redirect("/")
+
+@app.route("/all_requests")
+def requests():
+    movies = m_repository.get_requests()
+    return render_template("requests.html", movies=movies)
 
 @app.route("/new_review/<int:id>")
 def new_review(id):

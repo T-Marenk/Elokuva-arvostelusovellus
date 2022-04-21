@@ -4,6 +4,12 @@
 <h2>
 	Tervetuloa poppari-arvosteluihin
 </h2>
+{% if admin %}
+<p>
+	<a href="/all_requests">Elokuva pyynnöt</a>
+	<a href="/add_movie">Lisää elokuva</a>
+</p>
+{% endif %}
 <form action="/search_result" method="GET">
 	<h4>
 		Hae elokuvaa:
