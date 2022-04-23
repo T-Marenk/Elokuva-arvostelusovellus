@@ -26,6 +26,7 @@ def find_user_id(username):
     sql = "SELECT id FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user_id = result.fetchone()[0]
+    print(user_id)
     return user_id
 
 def get_user(username):

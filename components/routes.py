@@ -44,15 +44,38 @@ def leave_request():
 
 @app.route("/all_requests")
 def requests():
+    if not u_repository.is_admin():
+        return redirect("/")
     movies = m_repository.get_requests()
     return render_template("requests.html", movies=movies)
+
+@app.route("/new_movie<int:id>", methods=["GET"])
+def new_movie(id):
+    if not u_repository.is_admin():
+        return redirect("/")
+    movie = m_repository.get_request(id)
+    return render_template("new_movie.html", movie=movie, id=id)
+
+@app.route("/add_movie", methods=["POST"])
+def add_movie():
+    movie_name = request.form["name"]
+    movie_year = request.form["year"]
+    movie_length = request.form["length"]
+    movie_genre = request.form["genre"]
+    description = request.form["description"]
+    id = request.form["id"]
+    movie_id = m_repository.add_movie(movie_name, movie_year, movie_length, movie_genre)
+    m_repository.add_description(movie_id, description) 
+    m_repository.delete_request(id)
+    flash("Elokuva lisätty onnistuneesti!")
+    return redirect("/all_requests")
 
 @app.route("/new_review/<int:id>")
 def new_review(id):
     if u_repository.is_user():
         movie = m_repository.movie(id)
         username = session['username']
-        user_id = u_repository.get_user(username)
+        user_id = u_repository.find_user_id(username)
         return render_template("new_review.html", id=id, movie=movie, user_id=user_id)
     return render_template("new_review.html")
 

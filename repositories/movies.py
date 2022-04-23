@@ -63,5 +63,23 @@ def get_requests():
 
 def delete_request(id):
     sql = "DELETE FROM pending WHERE id=:id"
-    db.session.execute(sql, {":id":id})
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+
+def get_request(id):
+    sql = "SELECT * FROM PENDING WHERE id=:id"
+    result = db.session.execute(sql, {"id":id})
+    movie = result.fetchone()
+    return movie
+
+def add_movie(name, year, length, genre):
+    sql = "INSERT INTO movies (name, year, length, genre) VALUES (:name, :year, :length, :genre) RETURNING id"
+    result = db.session.execute(sql, {"name":name, "year":year, "length":length, "genre":genre})
+    movie_id = result.fetchone()[0]
+    db.session.commit()
+    return movie_id
+
+def add_description(movie_id, description):
+    sql = "INSERT INTO description (movie_id, description) VALUES (:movie_id, :description)"
+    db.session.execute(sql, {"movie_id":movie_id, "description":description})
     db.session.commit()
