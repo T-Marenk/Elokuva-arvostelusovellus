@@ -109,7 +109,7 @@ def login():
         password = request.form["password"]
         user = u_repository.get_user(username)
         if not user:
-            flash("Käyttäjänimi väärin")
+            flash("Käyttäjää ei ole olemassa")
             return render_template("login.html")
         else:
             hash_value = user.password
