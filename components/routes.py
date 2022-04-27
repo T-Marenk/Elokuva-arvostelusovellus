@@ -14,10 +14,8 @@ def index():
 @app.route("/movie/<int:id>")
 def movie(id):
     movie = m_repository.movie(id)
-    reviews = m_repository.reviews(id)
-    all_stars = m_repository.stars(id)
     admin = u_repository.is_admin()
-    return render_template("movie.html", id=id, movie=movie, reviews=reviews, all_stars=all_stars, admin=admin) 
+    return render_template("movie.html", id=id, movie=movie, admin=admin
 
 @app.route("/search_result", methods=["GET"])
 def search_result():

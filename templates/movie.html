@@ -2,24 +2,24 @@
 {% block title %}{{movie.name}}{% endblock %}
 {% block content %}
 <h2>
-	{{ movie.name }}
+	{{ movie[0].name }}
 </h2>
 <p>
-	Julkaistu: {{ movie.year }} | Elokuvan pituus: {{ movie.length }} minuuttia
+	Julkaistu: {{ movie[0].year }} | Elokuvan pituus: {{ movie[0].length }} minuuttia
 </p>
 <p> 
-	Genre: {{ movie.genre }} 
+	Genre: {{ movie[0].genre }} 
 </p>
 <p>
-{% if movie.description %}
-	{{ movie.description }}
+{% if movie[0].description %}
+	{{ movie[0].description }}
 {% else %}
 	Elokuvalla ei ole kuvausta
 {% endif %}
 </p>
-{% if all_stars[0] != None %}
+{% if movie[0].all_stars != None %}
 <p> 
-	Arvosteluiden keskiarvo: {{ all_stars[0] }} tähteä 
+	Arvosteluiden keskiarvo: {{ movie[0].all_stars }} tähteä
 </p>
 {% else %}
 <p> 
@@ -29,7 +29,7 @@
 {% if session.username %}
 <p> 
 	Haluatko kertoa oman mielipiteesti elokuvasta?
-<a href="/new_review/{{ movie.id }}">Jätä arvostelu</a>
+<a href="/new_review/{{ movie[0].id }}">Jätä arvostelu</a>
 </p>
 {% else %}
 <p>
@@ -37,7 +37,8 @@
 </p>
 {% endif %}
 <hr>
-{% for review in reviews %}
+{% for review in movie %}
+{% if review.review %}
 <p>
 	{{ review.username }} | {{ "*"*review.stars }} 
 </p>
@@ -46,8 +47,9 @@
 </p>
 {{ review.left_at.strftime("%Y-%m-%d %H:%M:%S") }}
 {% if admin %}
-<a href="/delete_review/{{ review.id }}">Poista</a>
+<a href="/delete_review/{{ review.rid }}">Poista</a>
 {% endif %}
 <hr>
+{% endif %}
 {% endfor %}
 {% endblock %}

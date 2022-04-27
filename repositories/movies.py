@@ -7,22 +7,12 @@ def first_page():
     return movies
 
 def movie(id):
-    sql = "SELECT M.name, M.id, M.year, M.length, M.genre, D.description FROM movies M LEFT JOIN description D ON D.movie_id = M.id WHERE M.id = :id"
+    sql = "SELECT M.name, M.id, M.year, M.length, M.genre, D.description, R.review, R.id AS rid, R.stars, R.user_id, R.left_at, U.username, " \
+           "(SELECT AVG(stars)::numeric(10,2) as all_stars FROM reviews WHERE movie_id=:id) FROM movies M LEFT JOIN description D ON D.movie_id = M.id " \
+           "LEFT JOIN reviews R ON M.id = R.movie_id LEFT JOIN users U ON R.user_id = U.id WHERE M.id = :id"
     result = db.session.execute(sql, {"id":id})
-    movie = result.fetchone()
+    movie = result.fetchall()
     return movie
-
-def reviews(id):
-    sql = "SELECT A.id, A.stars, A.user_id, A.review, A.left_at, U.username FROM reviews A, users U WHERE A.movie_id=:id AND A.user_id=U.id"
-    result = db.session.execute(sql, {"id":id})
-    reviews = result.fetchall()
-    return reviews
-
-def stars(id):
-    sql = "SELECT ROUND(SUM(stars)/COUNT(*),1) FROM reviews WHERE movie_id=:id"
-    result = db.session.execute(sql, {"id":id})
-    all_stars = result.fetchone()
-    return all_stars
     
 def search_movies_name(name):
     sql = "SELECT id, name, year, genre FROM movies WHERE name LIKE :name"
