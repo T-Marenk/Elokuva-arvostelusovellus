@@ -42,5 +42,5 @@ CREATE TABLE platforms (
 
 CREATE TABLE view_at (
 	movie_id INTEGER,
-	patform_id INTEGER
+	platform_id INTEGER
 );
