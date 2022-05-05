@@ -14,8 +14,46 @@ def index():
 @app.route("/movie/<int:id>")
 def movie(id):
     movie = m_repository.movie(id)
+    platforms = m_repository.platforms(id)
     admin = u_repository.is_admin()
-    return render_template("movie.html", id=id, movie=movie, admin=admin)
+    if admin:
+        all_platforms = m_repository.all_platforms()
+        return render_template("movie.html", id=id, movie=movie, platforms=platforms, all_platforms=all_platforms, admin=admin)
+    return render_template("movie.html", id=id, movie=movie, platforms=platforms, admin=admin)
+
+@app.route("/add_movie_platform", methods=["POST"])
+def add_movie_platform():
+    platform_id = request.form.get("platform") 
+    movie_id = request.form["movie_id"]
+    if platform_id and movie_id:
+        m_repository.add_movie_platform(platform_id, movie_id)
+        return redirect("/movie/"+movie_id)
+    flash("Jotain meni pieleen")
+    return redirect("/")
+
+@app.route("/delete_movie_platform", methods=["POST"])
+def delete_movie_platform():
+    if u_repository.is_admin():
+        platform_id = request.form["platform_id"]
+        movie_id = request.form["movie_id"]
+        m_repository.delete_movie_platform(movie_id, platform_id)
+        return redirect("/movie/"+movie_id)
+    return redirect("/")
+
+@app.route("/new_platform", methods=["GET"])
+def new_platform():
+    if u_repository.is_admin():
+        return render_template("platform.html")
+    return redirect("/")
+
+@app.route("/add_platform", methods=["POST"])
+def add_platform():
+    name = request.form["platform_name"]
+    link = request.form["platform_link"]
+    if name and link:
+        m_repository.add_platform(name, link)
+        flash("Alusta lisätty onnistuneesti")
+    return redirect("/")
 
 @app.route("/search_result", methods=["GET"])
 def search_result():

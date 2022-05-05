@@ -33,3 +33,14 @@ CREATE TABLE pending (
 	movie_name TEXT,
 	year INTEGER
 );
+
+CREATE TABLE platforms (
+	id SERIAL PRUMARY KEY,	
+	name TEXT,
+	link TEXT
+);
+
+CREATE TABLE view_at (
+	movie_id INTEGER,
+       	patform_id INTEGER
+);

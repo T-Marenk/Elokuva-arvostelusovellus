@@ -1,9 +1,21 @@
 {% extends "layout.html" %}
-{% block title %}{{movie.name}}{% endblock %}
+{% block title %}{{movie[0].name}}{% endblock %}
 {% block content %}
 <h2>
 	{{ movie[0].name }}
 </h2>
+{% if admin %}
+<form action="/add_movie_platform" method="POST">
+<label for="platform">Lisää alusta:</label>
+<select name="platform">
+	{% for platform in all_platforms %}
+	<option value="{{ platform.id }}">{{ platform.name }}</option>
+	{% endfor %}
+</select>
+<input type="hidden" name="movie_id" value="{{ movie[0].id }}">
+<input type="submit" value="Lisää">
+</form>
+{% endif %}
 <p>
 	Julkaistu: {{ movie[0].year }} | Elokuvan pituus: {{ movie[0].length }} minuuttia
 </p>
@@ -24,6 +36,27 @@
 {% else %}
 <p> 
 	Elokuvalla ei ole vielä arvosteluja. Ole ensimmäinen ja kerro mielipiteesi elokuvasta! 
+</p>
+{% endif %}
+{% if platforms %}
+<p>
+	Etkö ole vielä nähnyt elokuvaa? Katso se jollain seuraavista alustoista:
+</p>
+{% for platform in platforms %}
+<p>
+	<a href="https://www.{{ platform.link }}/">{{ platform.name }}</a> 
+	{% if admin %}
+	<form action="/delete_movie_platform" method="POST">
+		<input type="hidden" name=movie_id value={{ movie[0].id }}>
+		<input type="hidden" name=platform_id value={{ platform.id }}>
+		<input type="submit" value="Poista">
+	</form>
+	{% endif %}
+</p>
+{% endfor %}
+{% else %}
+<p>
+	Elokuvalle ei tiedetä, millä alustoilla sen voi nähdä
 </p>
 {% endif %}
 {% if session.username %}

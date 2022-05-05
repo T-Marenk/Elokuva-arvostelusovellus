@@ -13,7 +13,34 @@ def movie(id):
     result = db.session.execute(sql, {"id":id})
     movie = result.fetchall()
     return movie
-    
+
+def platforms(id):
+    sql = "SELECT DISTINCT(P.link), P.name, P.id FROM platforms P LEFT JOIN view_at V ON P.id = V.platform_id WHERE V.movie_id = :id"
+    result = db.session.execute(sql, {"id":id})
+    platforms = result.fetchall()
+    return platforms
+
+def all_platforms():
+    sql = "SELECT DISTINCT(name), id, link FROM platforms"
+    result = db.session.execute(sql)
+    all_platforms = result.fetchall()
+    return all_platforms
+
+def add_movie_platform(platform_id, movie_id):
+    sql = "INSERT INTO view_at (movie_id, platform_id) VALUES (:movie_id, :platform_id)"
+    db.session.execute(sql, {"movie_id":movie_id, "platform_id":platform_id})
+    db.session.commit()
+
+def add_platform(platform_name, platform_link):
+    sql = "INSERT INTO platforms (name, link) VALUES (:name, :link)"
+    db.session.execute(sql, {"name":platform_name, "link":platform_link})
+    db.session.commit()
+
+def delete_movie_platform(movie_id, platform_id):
+    sql = "DELETE FROM view_at WHERE movie_id=:movie_id AND platform_id=:platform_id"
+    db.session.execute(sql, {"movie_id":movie_id, "platform_id":platform_id})
+    db.session.commit()
+
 def search_movies_name(name):
     sql = "SELECT id, name, year, genre FROM movies WHERE name LIKE :name"
     result = db.session.execute(sql, {"name":"%"+name+"%"})
