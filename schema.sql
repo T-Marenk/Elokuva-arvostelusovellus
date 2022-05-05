@@ -35,12 +35,12 @@ CREATE TABLE pending (
 );
 
 CREATE TABLE platforms (
-	id SERIAL PRUMARY KEY,	
+	id SERIAL PRIMARY KEY,	
 	name TEXT,
 	link TEXT
 );
 
 CREATE TABLE view_at (
 	movie_id INTEGER,
-       	patform_id INTEGER
+	patform_id INTEGER
 );

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}Uusi alusta{% endblock %}
+{% block content %}
+<form action="/add_platform" method="POST">
+	<p> Alustan nimi: <input type="text" name="platform_name"> </p>
+	<p> Linkki alustaan: <input type="text" name="platform_link"> </p>
+	<input type="submit" value="Lisää alusta"> <br>
+</form>
+	<h4>
+		HUOM!
+	</h4>
+	<p>
+		Alustan linkkien tulee olla muodossa ^alustanimi^.^aluelopetus^. Aluelopetus tarkoittaa esimerkiksi: com, fi jne. Esimerkiksi Netflix tulisi lisätä muodossa netflix.com.
+	</p>
+{% endblock %}
