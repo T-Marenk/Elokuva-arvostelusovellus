@@ -15,22 +15,21 @@
 	</h2>
 	<p>
 		<label for="usname">Käyttäjänimi:</label>
-		<input id="usname" type="text" name="username"> 
+		<input id="usname" type="text" name="username", value="{{ username }}">
 	</p>
 	<p>
 		<label for="pass">Salasana:</label>
-		<input id="pass" type="password" name="password1">
+		<input id="pass" type="password" name="password1", value="{{ password1 }}">
 	</p>
 	<p>
 		<label for="pass2">Anna salasana uudestaan:</label>
-		<input id="pass2" type="password" name="password2">
+		<input id="pass2" type="password" name="password2", value="{{ password2 }}">
 	</p>
 	<input type="submit" value="Luo käyttäjä">
 </form>
 <p>
 	Onko jo käyttäjä? <a href="/login">Kirjaudu sisään</a>
 <p>
-
 <h5>
 	HUOM!
 </h5>
@@ -38,6 +37,8 @@
 	Salasanassa tulee olla vähintään 5 merkkiä, joista ainakin yksi on numero ja ainakin yksi on iso kirjain
 </p>
 {% if error != None %}
+<br>
 {{ error }}
+<hr>
 {% endif %}
 {% endblock %}

@@ -15,7 +15,7 @@ def index():
 def movie(id):
     movie = m_repository.movie(id)
     admin = u_repository.is_admin()
-    return render_template("movie.html", id=id, movie=movie, admin=admin
+    return render_template("movie.html", id=id, movie=movie, admin=admin)
 
 @app.route("/search_result", methods=["GET"])
 def search_result():
@@ -101,14 +101,14 @@ def login():
     if u_repository.is_user():
         return redirect("/")
     if request.method == 'GET':
-        return render_template("login.html")
+        return render_template("login.html", username="", password="")
     if request.method == 'POST':
         username = request.form["username"]
         password = request.form["password"]
         user = u_repository.get_user(username)
         if not user:
             flash("Käyttäjää ei ole olemassa")
-            return render_template("login.html")
+            return render_template("login.html", username=username, password=password)
         else:
             hash_value = user.password
             if check_password_hash(hash_value, password):
@@ -118,14 +118,14 @@ def login():
                 return redirect("/")
             else:
                 flash("Väärä salasana")
-                return render_template("login.html")
+                return render_template("login.html", username=username, password=password)
 
 @app.route("/registeration",methods=["GET", "POST"])
 def register():
     if u_repository.is_user():     
         return redirect("/")
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register.html", username="", password1="", password2="")
     if request.method == 'POST':
         username = request.form["username"]
         password1 = request.form["password1"]
@@ -133,16 +133,16 @@ def register():
         exists = u_repository.get_user(username)
         if exists != None:
             error = 'Käyttäjänimi on jo olemassa'
-            return render_template("register.html", error=error)
+            return render_template("register.html", error=error, username=username, password1=password1, password2=password2)
         error = u_repository.check_username(username)
         if error:
-            return render_template("register.html", error=error)
+            return render_template("register.html", error=error, username=username, password1=password1, password2=password2)
         if password1 != password2:
             error = 'Salasanat eivät täsmää'
-            return render_template("register.html", error=error) 
+            return render_template("register.html", error=error, username=username, password1=password1, password2=password2)
         error = u_repository.check_password(password1)
-        if error:    
-            return render_template("register.html", error=error) 
+        if error:
+            return render_template("register.html", error=error, username=username, password1=password1, password2=password2)
         hash_value = generate_password_hash(password1)
         u_repository.add_user(username, hash_value)
         flash("Käyttäjä luotu onnistuneesti")

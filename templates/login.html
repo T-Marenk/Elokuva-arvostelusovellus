@@ -5,8 +5,8 @@
 	Kirjaudu sisään
 </h2>
 <form action="/login" method="POST">
-	<p>Käyttäjänimi:</p> <input type="text" name="username"> <br>
-	<p>Salasana:</p> <input type="password" name="password"> <br>
+	<p>Käyttäjänimi:</p> <input type="text" name="username", value="{{ username }}"> <br>
+	<p>Salasana:</p> <input type="password" name="password", value="{{ password }}"> <br>
 	<input type="submit" value="Kirjaudu sisään">
 </form>
 <p>Eikö ole vielä käyttäjää? <a href="/registeration">Luo käyttäjä</a></p>
