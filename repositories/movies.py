@@ -41,6 +41,11 @@ def delete_movie_platform(movie_id, platform_id):
     db.session.execute(sql, {"movie_id":movie_id, "platform_id":platform_id})
     db.session.commit()
 
+def delete_all_movie_platforms(movie_id):
+    sql = "DELETE FROM view_at WHERE movie_id=:movie_id"
+    db.session.execute(sql, {"movie_id":movie_id})
+    db.session.commit()
+
 def search_movies_name(name):
     sql = "SELECT id, name, year, genre FROM movies WHERE name LIKE :name"
     result = db.session.execute(sql, {"name":"%"+name+"%"})
@@ -67,6 +72,21 @@ def delete_review(review_id):
     db.session.commit()
     return movie_id
 
+def delete_movie_reviews(movie_id):
+    sql = "DELETE FROM reviews WHERE movie_id=:movie_id"
+    db.session.execute(sql, {"movie_id":movie_id})
+    db.session.commit()
+
+def delete_description(movie_id):
+    sql = "DELETE FROM description WHERE movie_id=:movie_id"
+    db.session.execute(sql, {"movie_id":movie_id})
+    db.session.commit()
+
+def delete_movie(movie_id):
+    sql = "DELETE FROM movies WHERE id=:movie_id"
+    db.session.execute(sql, {"movie_id":movie_id})
+    db.session.commit()
+    
 def leave_request(movie_name, movie_year):
     sql = "INSERT INTO pending (movie_name, year) VALUES (:movie_name, :movie_year)"
     db.session.execute(sql, {"movie_name":movie_name, "movie_year":movie_year})

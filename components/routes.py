@@ -23,12 +23,13 @@ def movie(id):
 
 @app.route("/add_movie_platform", methods=["POST"])
 def add_movie_platform():
-    platform_id = request.form.get("platform") 
-    movie_id = request.form["movie_id"]
-    if platform_id and movie_id:
-        m_repository.add_movie_platform(platform_id, movie_id)
-        return redirect("/movie/"+movie_id)
-    flash("Jotain meni pieleen")
+    if u_repository.is_admin():
+        platform_id = request.form.get("platform") 
+        movie_id = request.form["movie_id"]
+        if platform_id and movie_id:
+            m_repository.add_movie_platform(platform_id, movie_id)
+            return redirect("/movie/"+movie_id)
+        flash("Jotain meni pieleen")
     return redirect("/")
 
 @app.route("/delete_movie_platform", methods=["POST"])
@@ -48,6 +49,8 @@ def new_platform():
 
 @app.route("/add_platform", methods=["POST"])
 def add_platform():
+    if not u_repository.is_admin():
+        return redirect("/")
     name = request.form["platform_name"]
     link = request.form["platform_link"]
     if name and link:
@@ -72,6 +75,8 @@ def movie_request():
 
 @app.route("/leave_request", methods=["POST"])
 def leave_request():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     movie_name = request.form["movie_name"]
     movie_year = request.form["movie_year"]
     m_repository.leave_request(movie_name, movie_year)
@@ -94,6 +99,11 @@ def new_movie(id):
 
 @app.route("/add_movie", methods=["POST"])
 def add_movie():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    if not u_repository.is_admin():
+        flash("Et ole ylläpitäjä")
+        return redirect("/")
     movie_name = request.form["name"]
     movie_year = request.form["year"]
     movie_length = request.form["length"]
@@ -105,6 +115,18 @@ def add_movie():
     m_repository.delete_request(id)
     flash("Elokuva lisätty onnistuneesti!")
     return redirect("/all_requests")
+
+@app.route("/delete_movie", methods=["POST"])
+def delete_movie():
+    if not u_repository.is_admin():
+        return redirect("/")
+    movie_id = request.form["movie_id"]
+    m_repository.delete_all_movie_platforms(movie_id)
+    m_repository.delete_movie_reviews(movie_id)
+    m_repository.delete_description(movie_id)
+    m_repository.delete_movie(movie_id)
+    flash("Elokuva poistettu!")
+    return redirect("/")
 
 @app.route("/new_review/<int:id>")
 def new_review(id):

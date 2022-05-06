@@ -13,6 +13,7 @@
 		<label for="myear">Elokuvan julkaisuvuosi:</label>
 		<input id="myear" type="text" name="movie_year">
 	</p>
+	<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 	<input type="submit" value="Lähteä pyyntö">
 </form>
 {% endblock %}

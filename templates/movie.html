@@ -5,6 +5,13 @@
 	{{ movie[0].name }}
 </h2>
 {% if admin %}
+<form action="/delete_movie", method="POST">
+	<p>
+		Poista elokuva:
+	<input type="hidden" name="movie_id" value="{{ movie[0].id }}">
+	<input type="submit" value="Poista">
+	</p>
+</form>
 <form action="/add_movie_platform" method="POST">
 <label for="platform">Lisää alusta:</label>
 <select name="platform">
@@ -19,7 +26,7 @@
 <p>
 	Julkaistu: {{ movie[0].year }} | Elokuvan pituus: {{ movie[0].length }} minuuttia
 </p>
-<p> 
+<p>
 	Genre: {{ movie[0].genre }} 
 </p>
 <p>
@@ -42,18 +49,20 @@
 <p>
 	Etkö ole vielä nähnyt elokuvaa? Katso se jollain seuraavista alustoista:
 </p>
+<table>
 {% for platform in platforms %}
-<p>
-	<a href="https://www.{{ platform.link }}/">{{ platform.name }}</a> 
+	<tr>
+		<td><a href="https://www.{{ platform.link }}/">{{ platform.name }}</a></td>
 	{% if admin %}
 	<form action="/delete_movie_platform" method="POST">
 		<input type="hidden" name=movie_id value={{ movie[0].id }}>
 		<input type="hidden" name=platform_id value={{ platform.id }}>
-		<input type="submit" value="Poista">
+		<td><input type="submit" value="Poista"></td>
 	</form>
 	{% endif %}
-</p>
+</tr>
 {% endfor %}
+</table>
 {% else %}
 <p>
 	Elokuvalle ei tiedetä, millä alustoilla sen voi nähdä
