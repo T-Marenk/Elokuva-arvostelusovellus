@@ -6,9 +6,9 @@
 </h2>
 {% if admin %}
 <p>
-	<a href="/all_requests">Elokuva pyynnöt</a>
-	<a href="/new_movie0">Lisää elokuva</a>
-	<a href="/new_platform">Lisää uusi alusta</a>
+	<a href="/all_requests" class="admin_link">Elokuva pyynnöt</a>
+	<a href="/new_movie0" class="admin_link">Lisää elokuva</a>
+	<a href="/new_platform" class="admin_link">Lisää uusi alusta</a>
 </p>
 {% endif %}
 <form action="/search_result" method="GET">
@@ -27,8 +27,8 @@
 {% for movie in movies %}
 <p>
 	{{ movie.name }} | Julkaistu: {{ movie.year }}
+	<a href="/movie/{{ movie.id }}" class="show_movie">Näytä elokuva</a>
 </p>
-<a href="/movie/{{ movie.id }}">Näytä elokuva</a>
 <hr>
 {% endfor %}
 {% endblock %}

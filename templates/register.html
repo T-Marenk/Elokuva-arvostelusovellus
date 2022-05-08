@@ -1,28 +1,19 @@
 {% extends "layout.html" %}
 {% block title %}Rekisteröityminen{% endblock %}
 {% block content %}
-<head>
-<style>
-	form  { display: table;      }
-	p     { display: table-row;  }
-	label { display: table-cell; }
-	input { display: table-cell; }
-</style>
-</head>
+<div class="align_boxes">
 <form action="/registeration" method="POST">
 	<h2>
 		Luo käyttäjä 
 	</h2>
-	<p>
-		<label for="usname">Käyttäjänimi:</label>
+		<label class="label2" for="usname">Käyttäjänimi:</label>
 		<input id="usname" type="text" name="username", value="{{ username }}">
-	</p>
 	<p>
-		<label for="pass">Salasana:</label>
+		<label class="label2" for="pass">Salasana:</label>
 		<input id="pass" type="password" name="password1", value="{{ password1 }}">
 	</p>
 	<p>
-		<label for="pass2">Anna salasana uudestaan:</label>
+		<label class="label2" for="pass2">Salasana uudestaan:</label>
 		<input id="pass2" type="password" name="password2", value="{{ password2 }}">
 	</p>
 	<input type="submit" value="Luo käyttäjä">
@@ -42,3 +33,4 @@
 <hr>
 {% endif %}
 {% endblock %}
+</div>

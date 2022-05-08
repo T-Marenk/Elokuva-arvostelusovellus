@@ -5,11 +5,16 @@
 	{{ movie[0].name }}
 </h2>
 {% if admin %}
+	<script type="text/javascript">
+		function confirm_delete(node) {
+			return confirm("Haluatko varmasti poistaa elokuvan?")
+		}
+	</script>
 <form action="/delete_movie", method="POST">
 	<p>
 		Poista elokuva:
 	<input type="hidden" name="movie_id" value="{{ movie[0].id }}">
-	<input type="submit" value="Poista">
+	<input type="submit" onclick="return confirm_delete(this);" value="Poista">
 	</p>
 </form>
 <form action="/add_movie_platform" method="POST">
@@ -49,10 +54,15 @@
 <p>
 	Etkö ole vielä nähnyt elokuvaa? Katso se jollain seuraavista alustoista:
 </p>
+	<script type="text/javascript">
+		function warning_alert(node) {
+			return confirm("HUOM! Tämä linkki vie toiselle nettisivulle. Haluatko jatkaa?")
+		}
+	</script>
 <table>
 {% for platform in platforms %}
 	<tr>
-		<td><a href="https://www.{{ platform.link }}/">{{ platform.name }}</a></td>
+		<td><a href="https://www.{{ platform.link }}/" onclick="return warning_alert(this);">{{ platform.name }}</a></td>
 	{% if admin %}
 	<form action="/delete_movie_platform" method="POST">
 		<input type="hidden" name=movie_id value={{ movie[0].id }}>

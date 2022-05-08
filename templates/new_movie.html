@@ -2,21 +2,30 @@
 {% block title %}Uusi{% endblock %}
 {% block content %}
 <form action="/add_movie" method=POST>
-	<p>
-		Elokuvan nimi: <input type="text" name="name" value="{{ movie.movie_name }}">
-	</p>
-	<p>
-		Julkaisuvuosi: <input type="text" name="year" value="{{ movie.year }}">
-	</p>
-	<p>
-		Elokuvan pituus: <input type="text" name="length">
-	</p>
-	<p>
-		Elokuvan genre: <input type="text" name="genre">
-	</p>
-	<p>
+	<label class="label">
+		Elokuvan nimi: 
+	</label>
+	<input type="text" name="name" value="{{ movie.movie_name }}">
+	<br>
+	<label class="label">
+		Julkaisuvuosi: 
+	</label>
+	<input type="text" name="year" value="{{ movie.year }}">
+	<br>
+	<label class="label">
+		Elokuvan pituus: 
+	</label>
+	<input type="text" name="length">
+	<br>
+	<label class="label">
+		Elokuvan genre: 
+	</label>
+	<input type="text" name="genre">
+	<br>
+	<label class="label">
 		Kuvaus elokuvasta:
-	</p>
+	</label>
+	<br>
 	<textarea name="description"></textarea> <br>
 	<input type="hidden" name="id" value="{{ id }}">
 	<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">

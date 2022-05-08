@@ -1,0 +1,64 @@
+body {
+	font-family: 'Arial', 'Helvetica', sans-serif;
+	background: LightBlue;
+}
+
+.header {
+	background: DeepSkyBlue;
+}
+
+.menu {
+	background-color: DeepSkyBlue;
+	border: None;
+	color: black;
+	padding: 12px 26px;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.menu:hover {
+	background-color: LightBlue;
+}
+
+.admin_link {
+	background-color: LightBlue;
+	border: None;
+	color: black;
+	padding: 10px 22px;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+
+.admin_link:hover {
+	background-color: DeepSkyBlue;
+}
+
+.show_movie {
+	background-color: LightGray;
+	display: inline-block;
+	padding: 3px 6px;
+	border: 1px solid black;
+	border-radius: 6px;
+	text-decoration: none;
+}
+
+.label {
+	width: 150px;
+	display: inline-block;
+	text-align: left;
+}
+
+.label2 {
+	width: 160px;
+	display: inline-block;
+	text-align: left;
+}
+
+.label3 {
+	width: 170px;
+	display: inline-block;
+	text-align: left;
+}

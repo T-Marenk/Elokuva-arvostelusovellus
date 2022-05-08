@@ -6,11 +6,11 @@
 </h2>
 <form action="/leave_request" method="POST">
 	<p>
-		<label for="mname">Elokuvan nimi:</label>
+		<label class="label3" for="mname">Elokuvan nimi:</label>
 		<input id="mname" type="text" name="movie_name">
 	</p>
 	<p>
-		<label for="myear">Elokuvan julkaisuvuosi:</label>
+		<label class="label3" for="myear">Elokuvan julkaisuvuosi:</label>
 		<input id="myear" type="text" name="movie_year">
 	</p>
 	<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">

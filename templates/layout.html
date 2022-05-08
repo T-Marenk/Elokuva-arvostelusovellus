@@ -1,19 +1,26 @@
 <!DOCTYPE html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/mainpage.css') }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 <title>
 	Poppari-arvostelut - {% block title %}{% endblock %}
 </title>
-<h1>
-	Poppari-arvostelut
-</h1>
-<p>
-	{% if session.username %}
-	{{ session.username }} 
-	<a href="/logout">Kirjaudu ulos</a>
-	{% else %}
-	<a href="/login">Kirjaudu sisään</a>
-	{% endif %}	
-</p>
-<a href="/">Etusivulle</a>
+<body>
+	<div class="header">
+	<h1>
+		Poppari-arvostelut
+	</h1>
+	<p>
+		{% if session.username %}
+		{{ session.username }} 
+		<a href="/logout" class="menu">Kirjaudu ulos</a>
+		{% else %}
+		<a href="/login" class="menu">Kirjaudu sisään</a>
+		{% endif %}	
+	<a href="/" class="menu">Etusivulle</a>
+	</p>
+	</div>
 <hr>
 	{% with messages = get_flashed_messages() %}
 	{% if messages %}
@@ -27,3 +34,4 @@
 <p>
 	Puuttuukko joku elokuva? Jätä pyyntö elokuvan lisäämiseen <a href="/movie_request">tästä</a>
 </p>
+</body>
