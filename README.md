@@ -6,7 +6,9 @@ Nettisovellus, jossa pääsee antamaan arvioita elokuvista
 
 Projekti on tehty Helsingin yliopiston kurssia _Aineopintojen harjoitustyö: Tietokantasovellus_ varten
 
-## Toimivat ominaisuudet
+## Lopullinen sovellus
+
+Sovelluksessa on seuraavat toiminnot:
 
 - Käyttäjän luominen ja sisään kirjautuminen
 - Elokuvien hakeminen sivulta nimen tai genren mukaan
@@ -22,7 +24,7 @@ Projekti on tehty Helsingin yliopiston kurssia _Aineopintojen harjoitustyö: Tie
 - Elokuva pyyntöjen jättäminen
 - Elokuvalla näkee, millä alustalla sen voi katsoa
 
-Sovellus on toiminnallisuudeltaan valmis ja kaikki alkuperiäiset vaatimukset toiminnallisuuksille ovat toiminnallisia.
+Sovelluksessa on siis kaikki alunperin sille suunnitellut toiminnallisuudet. Näkymien välillä pääsee kulkemaan sivuston sisäisillä linkeillä ja jokaisesta näkymästä pääsee helposti palaamaan etusivulle. Normaaleille käyttäjille olevissa tekstikentissä on mahdolliset tarkistukset tiedon oikeallisuudesta, esimerkiksi vuosiluvun tarkistetaan olevan vuosiluku. Ylläpitäjä toiminnot ovat toiminnallisia vain ylläpitäjille eikä niille pääse ilman ylläpitäjän oikeuksia.
 
 ## Heroku
 
@@ -45,7 +47,15 @@ Suorittaaksesi sovellus paikallisesti tulee olla virtuaaliympäristössä. Täh�
 source venv/bin/activate
 ```
 
-Sovellus käyttää PostgreSQL -tietokantaa. Sovelluksen toimintaa varten tulee siis olla asennettuna PostgreSQL sekä olla käynnistetty tietokanta.
+Sovellus käyttää PostgreSQL -tietokantaa. Sovelluksen toimintaa varten tulee siis olla asennettuna PostgreSQL, jonka tulee olla käynnistettynä sovellusta suorittaessa.
+
+Tarvittavat taulukot saa kopioitua omaan tietokantaan suorittamalla
+
+```bash
+psql < schema.sql
+```
+
+sovelluksen juurihakemistossa
 
 ## Alkuperäinen suunnitelma sovelluksen ominaisuuksista
 
