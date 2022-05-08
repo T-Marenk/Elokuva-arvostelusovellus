@@ -60,7 +60,11 @@ def add_platform():
 
 @app.route("/search_result", methods=["GET"])
 def search_result():
-    search_by = request.args["search_by"]
+    try:
+        search_by = request.args["search_by"]
+    except:
+        flash("Valitse haku tapa")
+        return redirect("/")
     query = request.args["query"]
     if search_by == "name":
         movies = m_repository.search_movies_name(query)
