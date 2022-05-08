@@ -71,7 +71,7 @@ def search_result():
 
 @app.route("/movie_request", methods=["GET"])
 def movie_request():
-    return render_template("movie_request.html")
+    return render_template("movie_request.html", name="", year="")
 
 @app.route("/leave_request", methods=["POST"])
 def leave_request():
@@ -79,9 +79,12 @@ def leave_request():
         abort(403)
     movie_name = request.form["movie_name"]
     movie_year = request.form["movie_year"]
-    m_repository.leave_request(movie_name, movie_year)
-    flash("Pyyntö jätetty onnistuneesti")
-    return redirect("/")
+    movie_name, movie_year, success = m_repository.leave_request(movie_name, movie_year)
+    if success:
+        flash("Pyyntö jätetty onnistuneesti")
+        return redirect("/")
+    flash("Vuosiluvun tulee olla numero")
+    return render_template("movie_request.html", name=movie_name, year=movie_year)
 
 @app.route("/all_requests")
 def requests():
@@ -110,9 +113,9 @@ def add_movie():
     movie_genre = request.form["genre"]
     description = request.form["description"]
     id = request.form["id"]
-    movie_id = m_repository.add_movie(movie_name, movie_year, movie_length, movie_genre)
+    movie_id, movie_name = m_repository.add_movie(movie_name, movie_year, movie_length, movie_genre)
     m_repository.add_description(movie_id, description) 
-    m_repository.delete_request(id)
+    m_repository.delete_request(id, movie_name)
     flash("Elokuva lisätty onnistuneesti!")
     return redirect("/all_requests")
 

@@ -7,7 +7,7 @@ def first_page():
     return movies
 
 def movie(id):
-    sql = "SELECT M.name, M.id, M.year, M.length, M.genre, D.description, R.review, R.id AS rid, R.stars, R.user_id, R.left_at, U.username, " \
+    sql = "SELECT DISTINCT(R.user_id), M.name, M.id, M.year, M.length, M.genre, D.description, R.review, R.id AS rid, R.stars, R.left_at, U.username, " \
            "(SELECT AVG(stars)::numeric(10,2) as all_stars FROM reviews WHERE movie_id=:id) FROM movies M LEFT JOIN description D ON D.movie_id = M.id " \
            "LEFT JOIN reviews R ON M.id = R.movie_id LEFT JOIN users U ON R.user_id = U.id WHERE M.id = :id"
     result = db.session.execute(sql, {"id":id})
@@ -88,33 +88,38 @@ def delete_movie(movie_id):
     db.session.commit()
     
 def leave_request(movie_name, movie_year):
+    try:
+        int(movie_year)
+    except:
+        return movie_name, movie_year, False
     sql = "INSERT INTO pending (movie_name, year) VALUES (:movie_name, :movie_year)"
     db.session.execute(sql, {"movie_name":movie_name, "movie_year":movie_year})
     db.session.commit()
+    return movie_name, movie_year, True
 
 def get_requests():
-    sql = "SELECT * FROM pending"
+    sql = "SELECT DISTINCT(movie_name), id, year FROM pending"
     result = db.session.execute(sql)
     pending = result.fetchall()
     return pending
 
-def delete_request(id):
-    sql = "DELETE FROM pending WHERE id=:id"
-    db.session.execute(sql, {"id":id})
+def delete_request(id, movie_name):
+    sql = "DELETE FROM pending WHERE id=:id OR movie_name=:movie_name"
+    db.session.execute(sql, {"id":id, "movie_name":movie_name})
     db.session.commit()
 
 def get_request(id):
-    sql = "SELECT * FROM PENDING WHERE id=:id"
+    sql = "SELECT DISTINCT(movie_name), id, year FROM PENDING WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     movie = result.fetchone()
     return movie
 
 def add_movie(name, year, length, genre):
-    sql = "INSERT INTO movies (name, year, length, genre) VALUES (:name, :year, :length, :genre) RETURNING id"
+    sql = "INSERT INTO movies (name, year, length, genre) VALUES (:name, :year, :length, :genre) RETURNING id, name"
     result = db.session.execute(sql, {"name":name, "year":year, "length":length, "genre":genre})
-    movie_id = result.fetchone()[0]
+    movie = result.fetchone()
     db.session.commit()
-    return movie_id
+    return movie[0], movie[1]
 
 def add_description(movie_id, description):
     sql = "INSERT INTO description (movie_id, description) VALUES (:movie_id, :description)"

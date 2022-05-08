@@ -5,9 +5,11 @@
 	Jätetyt pyynnöt
 </h2>
 {% if movies %}
+<hr>
 {% for movie in movies %}
 	{{ movie.movie_name }} | {{ movie.year }}
-	<a href="/new_movie{{ movie.id }}">Lisää elokuva</a>
+	<a href="/new_movie{{ movie.id }}" class="request">Lisää elokuva</a>
+	<hr>
 {% endfor %}
 {% endif %}
 {% endblock %}
