@@ -4,7 +4,7 @@
 
 Nettisovellus, jossa pääsee antamaan arvioita elokuvista
 
-Projekti on tehty Helsingin yliopiston kurssia _Aineopintojen harjoitustyö: Tietokantasovellus_
+Projekti on tehty Helsingin yliopiston kurssia _Aineopintojen harjoitustyö: Tietokantasovellus_ varten
 
 ## Toimivat ominaisuudet
 
