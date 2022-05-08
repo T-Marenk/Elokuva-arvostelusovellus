@@ -9,7 +9,7 @@ import string, secrets
 def index():
     movies = m_repository.first_page()
     admin = u_repository.is_admin()
-    return render_template("index.html", movies=movies, admin=admin)
+    return render_template("index.html", movies=movies, admin=admin, req=True)
 
 @app.route("/movie/<int:id>")
 def movie(id):
@@ -18,8 +18,8 @@ def movie(id):
     admin = u_repository.is_admin()
     if admin:
         all_platforms = m_repository.all_platforms()
-        return render_template("movie.html", id=id, movie=movie, platforms=platforms, all_platforms=all_platforms, admin=admin)
-    return render_template("movie.html", id=id, movie=movie, platforms=platforms, admin=admin)
+        return render_template("movie.html", id=id, movie=movie, platforms=platforms, all_platforms=all_platforms, admin=admin, req=True)
+    return render_template("movie.html", id=id, movie=movie, platforms=platforms, admin=admin, req=True)
 
 @app.route("/add_movie_platform", methods=["POST"])
 def add_movie_platform():
@@ -64,10 +64,10 @@ def search_result():
     query = request.args["query"]
     if search_by == "name":
         movies = m_repository.search_movies_name(query)
-        return render_template("search_result.html", movies=movies)
+        return render_template("search_result.html", movies=movies, req=True)
     if search_by == "genre":
         movies = m_repository.search_movies_genre(query)
-        return render_template("search_result.html", movies=movies)
+        return render_template("search_result.html", movies=movies, req=True)
 
 @app.route("/movie_request", methods=["GET"])
 def movie_request():
@@ -138,8 +138,8 @@ def new_review(id):
         username = session['username']
         user_id = u_repository.find_user_id(username)
         review=""
-        return render_template("new_review.html", id=id, movie=movie, user_id=user_id, review=review)
-    return render_template("new_review.html")
+        return render_template("new_review.html", id=id, movie=movie, user_id=user_id, review=review, req=True)
+    return render_template("new_review.html", req=True)
 
 @app.route("/leave_review", methods=["POST"])
 def leave_review():
@@ -152,7 +152,7 @@ def leave_review():
         username = session['username']
         user_id = u_repository.find_user_id(username)
         review = request.form["review"]
-        return render_template("new_review.html", id=movie_id, movie=movie, user_id=user_id, review=review)
+        return render_template("new_review.html", id=movie_id, movie=movie, user_id=user_id, review=review, req=True)
     stars = request.form["stars"]
     review = request.form["review"]
     user_id = request.form["user_id"]

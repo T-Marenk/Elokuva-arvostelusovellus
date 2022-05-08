@@ -31,7 +31,9 @@
 	{% endif %}
 	{% endwith %}
 {% block content %}{% endblock %}
+{% if req %}
 <p>
 	Puuttuukko joku elokuva? Jätä pyyntö elokuvan lisäämiseen <a href="/movie_request">tästä</a>
 </p>
+{% endif %}
 </body>
