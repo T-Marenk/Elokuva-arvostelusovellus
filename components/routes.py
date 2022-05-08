@@ -134,7 +134,8 @@ def new_review(id):
         movie = m_repository.movie(id)
         username = session['username']
         user_id = u_repository.find_user_id(username)
-        return render_template("new_review.html", id=id, movie=movie, user_id=user_id)
+        review=""
+        return render_template("new_review.html", id=id, movie=movie, user_id=user_id, review=review)
     return render_template("new_review.html")
 
 @app.route("/leave_review", methods=["POST"])
@@ -144,7 +145,11 @@ def leave_review():
     movie_id = request.form["id"]
     if "stars" not in request.form:
         flash("Anna elokuvalle arvostelu")
-        return redirect("/new_review/" + str(movie_id))
+        movie = m_repository.movie(movie_id)
+        username = session['username']
+        user_id = u_repository.find_user_id(username)
+        review = request.form["review"]
+        return render_template("new_review.html", id=movie_id, movie=movie, user_id=user_id, review=review)
     stars = request.form["stars"]
     review = request.form["review"]
     user_id = request.form["user_id"]

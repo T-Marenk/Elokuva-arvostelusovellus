@@ -2,7 +2,7 @@
 {% block title %}Uusi arvostelu{% endblock %}
 {% block content %}
 {% if session.username %}
-<h2> Jätä arvostelu elokuvalle {{ movie.name }} </h2>
+<h2> Jätä arvostelu elokuvalle {{ movie[0].name }} </h2>
 <hr>
 <form action="/leave_review" method="POST">
 	<p>
@@ -21,7 +21,7 @@
 	<p>
 		Kerro tarkemmin mielipiteesi elokuvasta
 	</p>
-	<textarea name="review" required></textarea> <br>
+	<textarea name="review" required>{{ review }}</textarea> <br>
 	<br>
 	<input type="submit" value="Lähetä arvostelu">
 	<input type="hidden" name="id" value="{{ id }}">
